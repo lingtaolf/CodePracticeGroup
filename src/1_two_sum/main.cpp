@@ -40,6 +40,7 @@ int main()
     int taget = 6;
     Solution s;
     vector<int> res = s.twoSum(nums, taget);
+    
     for (auto it = res.begin(); it != res.end(); it++)
     {
         cout<<*it<<endl; 
