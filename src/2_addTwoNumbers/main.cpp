@@ -13,42 +13,34 @@ struct ListNode {
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* result = new ListNode();
         int carray = 0;
 
-        int total_value = l1->val + l2->val;
-        if (total_value>=10){
-            result->val = total_value%10;
+        if ((l1->val + l2->val)>=10){
+            l1->val = (l1->val + l2->val)%10;
             carray = 1;
         }
         else
-            result->val = total_value;
+            l1->val = l1->val + l2->val;
 
-        if(l1->next && l2->next){
-            l1->next->val += carray;
+        if(l1->next || l2->next){
+            if (l1->next){
+                l1->next->val += carray;
+                l1->next = addTwoNumbers(l1->next, l2->next? l2->next: new ListNode(0));
+            }
+            else if (l2->next){
+                l2->next->val += carray;
+                l1->next = addTwoNumbers(l1->next? l1->next: new ListNode(0), l2->next);
+            }
             carray = 0;
-            result->next = addTwoNumbers(l1->next, l2->next);
         }
         
-        else if(!l1->next && !l2->next){
+        else {
            if (carray)
-               result->next = new ListNode(1);
-            return result; 
+               l1->next = new ListNode(1);
        }
-
-        else if (!l1->next){
-            result->next = addTwoNumbers(new ListNode(carray), l2->next);
-            return result;
-        }
-
-        else if (!l2->next){
-            result->next = addTwoNumbers(l1->next, new ListNode(carray));
-            return result;
-        }
         
-        return result;
+        return l1;
 
-            
     }
   
 
