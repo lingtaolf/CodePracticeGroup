@@ -40,10 +40,7 @@ public:
        }
         
         return l1;
-
     }
-  
-
  };
 
 void print(ListNode* l){
