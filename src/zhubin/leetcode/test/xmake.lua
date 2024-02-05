@@ -1,0 +1,5 @@
+target("test")
+    add_requires("doctest")
+    set_kind("binary")
+    set_symbols("debug")
+    add_files("test/*.cc")
