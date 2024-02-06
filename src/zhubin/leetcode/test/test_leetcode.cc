@@ -5,6 +5,4 @@
 #include "leetcode.h"
 
 leetcode::Solution *solution = new leetcode::Solution();
-TEST_CASE("test hello word") {
-    printf("hello word");
-};
+TEST_CASE("test hello word") { printf("hello word"); };

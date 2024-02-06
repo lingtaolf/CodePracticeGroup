@@ -4,18 +4,18 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstdio>
+#include <functional>
+#include <queue>
 #include <stdint.h>
 #include <string>
+#include <utility>
 #include <vector>
-#include <queue>
-#include<utility>
-#include<functional>
 
 using std::vector;
 
 namespace leetcode {
 
-class Soultion {
+class Solution {
   //=======================广度搜索=======
   // 200. 岛屿数量
   int numIslands(vector<vector<char>> &grid);
