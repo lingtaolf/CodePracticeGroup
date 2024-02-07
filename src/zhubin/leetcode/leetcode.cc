@@ -56,4 +56,42 @@ int Solution::numIslands(vector<vector<char>> &grid) {
   return nums;
 }
 
+bool Solution::validPath(int n, vector<vector<int>> &edges, int source,
+                         int destination) {
+  // // 并查集构建
+  // // father数组
+  // std::vector<int> father(n, 0);
+  // //并查集初始化
+  // for (int i = 0; i < n; i++) {
+  //   father[i] = i;
+  // }
+  // // find
+  // std::function<int(int)> find = [&](int u) -> int {
+  //   return u == father[u] ? u : father[u] = find(father[u]);
+  // };
+  // // merge 合并
+  // std::function<void(int, int)> merge = [&](int i, int j) {
+  //   int fa_i = find(i);
+  //   int fa_j = find(j);
+  //   father[fa_i] = fa_j;
+  // };
+  // //并查集的三要素
+
+  // for (int i = 0; i < edges.size(); i++) {
+  //   merge(edges[i][0], edges[i][1]);
+  // }
+
+  // int father_d = find(destination);
+  // int father_s = find(source);
+
+  // return father_d == father_s ? true : false;
+  UnionFind union_find = UnionFind(n);
+  for (int i = 0; i < edges.size(); i++) {
+    union_find.merge(edges[i][0], edges[i][1]);
+  }
+  int father_d = union_find.find(destination);
+  int father_s = union_find.find(source);
+
+  return father_d == father_s ? true : false;
+}
 } // namespace leetcode
