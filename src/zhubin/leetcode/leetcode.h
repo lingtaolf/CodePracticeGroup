@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <functional>
+#include <numeric>
 #include <queue>
 #include <stdint.h>
 #include <string>
@@ -45,16 +46,20 @@ private:
 };
 
 class Solution {
-  public:
+public:
   //=======================广度搜索=======
   // 200. 岛屿数量
-      int numIslands(vector<vector<char>> &grid);
+  int numIslands(vector<vector<char>> &grid);
 
   //====================并查集=========
   // 1971. 寻找图中是否存在路径
   // https://leetcode.cn/problems/find-if-path-exists-in-graph/description/
-    bool validPath(int n, vector<vector<int>> &edges, int source,
+  bool validPath(int n, vector<vector<int>> &edges, int source,
                  int destination);
+
+  //==================贪心算法===========================
+  // 134. 加油站
+  int canCompleteCircuit(vector<int> &gas, vector<int> &cost);
 };
 
 } // namespace leetcode

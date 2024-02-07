@@ -1,6 +1,7 @@
 #include "leetcode.h"
 #include <functional>
 #include <locale>
+#include <numeric>
 #include <type_traits>
 #include <utility>
 
@@ -94,4 +95,25 @@ bool Solution::validPath(int n, vector<vector<int>> &edges, int source,
 
   return father_d == father_s ? true : false;
 }
+
+int Solution::canCompleteCircuit(vector<int> &gas, vector<int> &cost) {
+  int total_gas = std::accumulate(gas.begin(), gas.end(), 0);
+  int total_cost = std::accumulate(cost.begin(), cost.end(), 0);
+  if (total_gas < total_cost)
+    // 提前返回
+    return -1;
+
+  int start = 0;        //起始位置
+  int current_left = 0; //当前油箱的剩余油量
+  for (int i = 0; i < gas.size(); i++) {
+    int left = gas[i] - cost[i];
+    current_left += left;
+    if (current_left < 0) {
+      start = i + 1;
+      current_left = 0;
+    }
+  }
+  return start;
+}
+
 } // namespace leetcode
