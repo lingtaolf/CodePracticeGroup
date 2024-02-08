@@ -16,8 +16,10 @@ using std::vector;
 
 namespace leetcode {
 
+//并查集实现
 class UnionFind {
 public:
+  //构造函数
   UnionFind(int n) : father(n), rank(n, 0) {
     for (int i = 0; i < n; i++) {
       father[i] = i;
@@ -60,6 +62,12 @@ public:
   //==================贪心算法===========================
   // 134. 加油站
   int canCompleteCircuit(vector<int> &gas, vector<int> &cost);
+  // 135. 分发糖果
+  int candy(vector<int> &ratings);
+  // 860. 柠檬水找零
+  bool lemonadeChange(vector<int> &bills);
+  // 406.根据⾝⾼重建队列
+  vector<vector<int>> reconstructQueue(vector<vector<int>> &people);
 };
 
 } // namespace leetcode

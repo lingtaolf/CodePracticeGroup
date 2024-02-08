@@ -1,4 +1,5 @@
 #include "leetcode.h"
+#include <algorithm>
 #include <functional>
 #include <locale>
 #include <numeric>
@@ -114,6 +115,74 @@ int Solution::canCompleteCircuit(vector<int> &gas, vector<int> &cost) {
     }
   }
   return start;
+}
+
+int Solution::candy(vector<int> &ratings) {
+  int n = ratings.size();
+  //每个孩子至少一个糖果
+  vector<int> candies(n, 1);
+  //模拟比较，比左边大的多发一个，比右边大的多发一个
+  for (int i = 1; i < n; i++) {
+    if (ratings[i] > ratings[i - 1]) {
+      // 右边比左边
+      candies[i] = candies[i - 1] + 1;
+    }
+  }
+  for (int j = n - 1; j > 0; j--) {
+    if (ratings[j - 1] > ratings[j]) {
+      // 左边比右边
+      // 注意此时的已经更新过了candies，所以要去max ,避免无效的增长
+      candies[j - 1] = std::max(candies[j] + 1, candies[j - 1]);
+    }
+  }
+
+  int sum = std::accumulate(candies.begin(), candies.end(), 0);
+  return sum;
+}
+bool Solution::lemonadeChange(vector<int> &bills) {
+  //维护两个变量，5元和10元，碰到20元优先使用10元
+  int five = 0, ten = 0;
+  for (int bill : bills) {
+    switch (bill) {
+    case 5:
+      five++;
+      break;
+    case 10:
+      if (five <= 0)
+        return false;
+      ten++;
+      five--;
+      break;
+    case 20:
+      if (five > 0 && ten > 0) {
+        ten--;
+        five--;
+      } else if (five >= 3) {
+        five -= 3;
+      } else {
+        return false;
+      }
+      break;
+    }
+  }
+  return true;
+}
+
+vector<vector<int>> Solution::reconstructQueue(vector<vector<int>> &people) {
+  // 先按照身高排序，由于个子高的看不到个子矮的，所以矮的可以插队，不影响个子高的属性
+  std::function<bool(const vector<int>, const vector<int>)> cmp =
+      [](const vector<int> a, vector<int> b) -> bool {
+    if (a[0] == b[0])
+      return a[1] < b[1];
+    return a[0] > b[0];
+  };
+  std::sort(people.begin(), people.end(), cmp);
+  vector<vector<int>> ans;
+  for (int i = 0; i < people.size(); i++) {
+    int position = people[i][1];
+    ans.insert(ans.begin() + position, people[i]);
+  }
+  return ans;
 }
 
 } // namespace leetcode
