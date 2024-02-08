@@ -1,0 +1,11 @@
+[
+{
+  "directory": "/workspaces/CodePracticeGroup/src/zhubin/leetcode",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O3", "-std=c++14", "-I.", "-I", "/home/vscode/.xmake/packages/d/doctest/2.4.11/0a52cbf458ea46be8a84f4e85f2e0a21/include", "-DNDEBUG", "-o", "build/.objs/test/linux/x86_64/release/leetcode.cc.o", "leetcode.cc"],
+  "file": "leetcode.cc"
+},
+{
+  "directory": "/workspaces/CodePracticeGroup/src/zhubin/leetcode",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-g", "-O3", "-std=c++14", "-I.", "-I", "/home/vscode/.xmake/packages/d/doctest/2.4.11/0a52cbf458ea46be8a84f4e85f2e0a21/include", "-DNDEBUG", "-o", "build/.objs/test/linux/x86_64/release/test/test_leetcode.cc.o", "test/test_leetcode.cc"],
+  "file": "test/test_leetcode.cc"
+}]

@@ -1,5 +1,6 @@
 .vscode
 .idea
 main
-.build/
+build/
 .xmake/
+.cache/

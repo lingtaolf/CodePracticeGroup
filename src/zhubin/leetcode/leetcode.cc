@@ -1,6 +1,8 @@
 #include "leetcode.h"
+#include <algorithm>
 #include <functional>
 #include <locale>
+#include <numeric>
 #include <type_traits>
 #include <utility>
 
@@ -54,6 +56,133 @@ int Solution::numIslands(vector<vector<char>> &grid) {
     }
   }
   return nums;
+}
+
+bool Solution::validPath(int n, vector<vector<int>> &edges, int source,
+                         int destination) {
+  // // 并查集构建
+  // // father数组
+  // std::vector<int> father(n, 0);
+  // //并查集初始化
+  // for (int i = 0; i < n; i++) {
+  //   father[i] = i;
+  // }
+  // // find
+  // std::function<int(int)> find = [&](int u) -> int {
+  //   return u == father[u] ? u : father[u] = find(father[u]);
+  // };
+  // // merge 合并
+  // std::function<void(int, int)> merge = [&](int i, int j) {
+  //   int fa_i = find(i);
+  //   int fa_j = find(j);
+  //   father[fa_i] = fa_j;
+  // };
+  // //并查集的三要素
+
+  // for (int i = 0; i < edges.size(); i++) {
+  //   merge(edges[i][0], edges[i][1]);
+  // }
+
+  // int father_d = find(destination);
+  // int father_s = find(source);
+
+  // return father_d == father_s ? true : false;
+  UnionFind union_find = UnionFind(n);
+  for (int i = 0; i < edges.size(); i++) {
+    union_find.merge(edges[i][0], edges[i][1]);
+  }
+  int father_d = union_find.find(destination);
+  int father_s = union_find.find(source);
+
+  return father_d == father_s ? true : false;
+}
+
+int Solution::canCompleteCircuit(vector<int> &gas, vector<int> &cost) {
+  int total_gas = std::accumulate(gas.begin(), gas.end(), 0);
+  int total_cost = std::accumulate(cost.begin(), cost.end(), 0);
+  if (total_gas < total_cost)
+    // 提前返回
+    return -1;
+
+  int start = 0;        //起始位置
+  int current_left = 0; //当前油箱的剩余油量
+  for (int i = 0; i < gas.size(); i++) {
+    int left = gas[i] - cost[i];
+    current_left += left;
+    if (current_left < 0) {
+      start = i + 1;
+      current_left = 0;
+    }
+  }
+  return start;
+}
+
+int Solution::candy(vector<int> &ratings) {
+  int n = ratings.size();
+  //每个孩子至少一个糖果
+  vector<int> candies(n, 1);
+  //模拟比较，比左边大的多发一个，比右边大的多发一个
+  for (int i = 1; i < n; i++) {
+    if (ratings[i] > ratings[i - 1]) {
+      // 右边比左边
+      candies[i] = candies[i - 1] + 1;
+    }
+  }
+  for (int j = n - 1; j > 0; j--) {
+    if (ratings[j - 1] > ratings[j]) {
+      // 左边比右边
+      // 注意此时的已经更新过了candies，所以要去max ,避免无效的增长
+      candies[j - 1] = std::max(candies[j] + 1, candies[j - 1]);
+    }
+  }
+
+  int sum = std::accumulate(candies.begin(), candies.end(), 0);
+  return sum;
+}
+bool Solution::lemonadeChange(vector<int> &bills) {
+  //维护两个变量，5元和10元，碰到20元优先使用10元
+  int five = 0, ten = 0;
+  for (int bill : bills) {
+    switch (bill) {
+    case 5:
+      five++;
+      break;
+    case 10:
+      if (five <= 0)
+        return false;
+      ten++;
+      five--;
+      break;
+    case 20:
+      if (five > 0 && ten > 0) {
+        ten--;
+        five--;
+      } else if (five >= 3) {
+        five -= 3;
+      } else {
+        return false;
+      }
+      break;
+    }
+  }
+  return true;
+}
+
+vector<vector<int>> Solution::reconstructQueue(vector<vector<int>> &people) {
+  // 先按照身高排序，由于个子高的看不到个子矮的，所以矮的可以插队，不影响个子高的属性
+  std::function<bool(const vector<int>, const vector<int>)> cmp =
+      [](const vector<int> a, vector<int> b) -> bool {
+    if (a[0] == b[0])
+      return a[1] < b[1];
+    return a[0] > b[0];
+  };
+  std::sort(people.begin(), people.end(), cmp);
+  vector<vector<int>> ans;
+  for (int i = 0; i < people.size(); i++) {
+    int position = people[i][1];
+    ans.insert(ans.begin() + position, people[i]);
+  }
+  return ans;
 }
 
 } // namespace leetcode
