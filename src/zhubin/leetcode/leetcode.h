@@ -68,6 +68,8 @@ public:
   bool lemonadeChange(vector<int> &bills);
   // 406.根据⾝⾼重建队列
   vector<vector<int>> reconstructQueue(vector<vector<int>> &people);
+  // 452. 用最少数量的箭引爆气球
+  int findMinArrowShots(vector<vector<int>> &points);
 };
 
 } // namespace leetcode

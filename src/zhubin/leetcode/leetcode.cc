@@ -185,4 +185,24 @@ vector<vector<int>> Solution::reconstructQueue(vector<vector<int>> &people) {
   return ans;
 }
 
+int Solution::findMinArrowShots(vector<vector<int>> &points) {
+  //排序
+  std::function<bool(const vector<int>, const vector<int>)> cmp =
+      [](const vector<int> a, const vector<int> b) -> bool {
+    return a[0] < b[0];
+  };
+  std::sort(points.begin(), points.end(), cmp);
+  int result = 1;
+  for (int i = 1; i < points.size(); i++) {
+    if (points[i][0] > points[i - 1][1]) {
+      //不重叠，需要增加一只箭
+      result++;
+    } else {
+      //跟新重叠气球的的右边的边界
+      points[i][1] = std::min(points[i - 1][1], points[i][1]);
+    }
+  }
+  return result;
+}
+
 } // namespace leetcode
