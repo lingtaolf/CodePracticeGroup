@@ -1,5 +1,6 @@
 #include "leetcode.h"
 #include <algorithm>
+#include <cstdint>
 #include <functional>
 #include <locale>
 #include <numeric>
@@ -203,6 +204,25 @@ int Solution::findMinArrowShots(vector<vector<int>> &points) {
     }
   }
   return result;
+}
+int Solution::eraseOverlapIntervals(vector<vector<int>> &intervals) {
+  // 排序
+  std::function<bool(const vector<int>, const vector<int>)> cmp =
+      [](const vector<int> a, const vector<int> b) -> bool {
+    return a[1] < b[1];
+  };
+  std::sort(intervals.begin(), intervals.end(), cmp);
+  int count = 1;
+  //计算非交叉区间的数目，然后用n减去非交叉区间的数据，就得到需要移除的区间的数目
+  int x_end = intervals[0][1];
+  for (int i = 1; i < intervals.size(); i++) {
+    if (intervals[i][0] >= x_end) {
+      count++;
+      x_end = intervals[i][1];
+    }
+
+    return intervals.size() - count;
+  }
 }
 
 } // namespace leetcode

@@ -70,6 +70,8 @@ public:
   vector<vector<int>> reconstructQueue(vector<vector<int>> &people);
   // 452. 用最少数量的箭引爆气球
   int findMinArrowShots(vector<vector<int>> &points);
+  // 435. 无重叠区间
+  int eraseOverlapIntervals(vector<vector<int>> &intervals);
 };
 
 } // namespace leetcode
