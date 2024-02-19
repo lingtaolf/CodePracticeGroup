@@ -5,6 +5,8 @@
 #include <locale>
 #include <numeric>
 #include <type_traits>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 namespace leetcode {
@@ -205,6 +207,7 @@ int Solution::findMinArrowShots(vector<vector<int>> &points) {
   }
   return result;
 }
+
 int Solution::eraseOverlapIntervals(vector<vector<int>> &intervals) {
   // 排序
   std::function<bool(const vector<int>, const vector<int>)> cmp =
@@ -220,9 +223,62 @@ int Solution::eraseOverlapIntervals(vector<vector<int>> &intervals) {
       count++;
       x_end = intervals[i][1];
     }
-
-    return intervals.size() - count;
   }
+  return intervals.size() - count;
 }
+
+vector<int> Solution::partitionLabels(std::string s) {
+  // unordered_map存储字符的最远位置
+  vector<int> ans;
+  std::unordered_map<char, int> hash_map;
+  for (int i = 0; i < s.size(); i++) {
+    hash_map[s[i]] = i;
+  }
+
+  for (std::unordered_map<char, int>::iterator p = hash_map.begin();
+       p != hash_map.end(); p++) {
+    std::cout << "(" << p->first << ", " << p->second << ")\n";
+  }
+
+  int pos = 0;
+  int left = 0;
+  for (int i = 0; i < s.size(); i++) {
+    pos = std::max(hash_map[s[i]], pos);
+    if (pos == i) {
+      //更新所有字符的最远距离
+
+      ans.emplace_back(pos - left + 1);
+      left = i + 1;
+    }
+  }
+  return ans;
+}
+
+int Solution::lengthOfLongestSubstring(std::string s){
+    if(s.size()==0) return 0;
+    //滑动窗口，双指针
+    int ans=0;
+    std::unordered_set<char> windows;
+    int left=0,right=0;
+    while(right<s.size()){
+      char c=s[right];
+      windows.emplace(c);
+      right++;
+      while (windows.find(c)!=windows.end()) {
+        char d=s[left];
+        windows.erase(d);
+        left++;
+      }
+      ans=std::max(ans,right-left);
+    }
+    return ans;
+
+
+
+
+
+
+  }
+
 
 } // namespace leetcode

@@ -25,3 +25,8 @@ TEST_CASE("TestReconstructQueue") {
   //   printf("%d==%d\n", s[0], s[1]);
   // }
 }
+
+TEST_CASE("TestPartitionLabels") {
+  std::string s = "ababcbacadefegdehijhklij";
+  vector<int> out = solution->partitionLabels(s);
+}
