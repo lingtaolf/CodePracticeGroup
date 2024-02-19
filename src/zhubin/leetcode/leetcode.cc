@@ -1,9 +1,12 @@
 #include "leetcode.h"
 #include <algorithm>
+#include <cstdint>
 #include <functional>
 #include <locale>
 #include <numeric>
 #include <type_traits>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 namespace leetcode {
@@ -184,5 +187,98 @@ vector<vector<int>> Solution::reconstructQueue(vector<vector<int>> &people) {
   }
   return ans;
 }
+
+int Solution::findMinArrowShots(vector<vector<int>> &points) {
+  //排序
+  std::function<bool(const vector<int>, const vector<int>)> cmp =
+      [](const vector<int> a, const vector<int> b) -> bool {
+    return a[0] < b[0];
+  };
+  std::sort(points.begin(), points.end(), cmp);
+  int result = 1;
+  for (int i = 1; i < points.size(); i++) {
+    if (points[i][0] > points[i - 1][1]) {
+      //不重叠，需要增加一只箭
+      result++;
+    } else {
+      //跟新重叠气球的的右边的边界
+      points[i][1] = std::min(points[i - 1][1], points[i][1]);
+    }
+  }
+  return result;
+}
+
+int Solution::eraseOverlapIntervals(vector<vector<int>> &intervals) {
+  // 排序
+  std::function<bool(const vector<int>, const vector<int>)> cmp =
+      [](const vector<int> a, const vector<int> b) -> bool {
+    return a[1] < b[1];
+  };
+  std::sort(intervals.begin(), intervals.end(), cmp);
+  int count = 1;
+  //计算非交叉区间的数目，然后用n减去非交叉区间的数据，就得到需要移除的区间的数目
+  int x_end = intervals[0][1];
+  for (int i = 1; i < intervals.size(); i++) {
+    if (intervals[i][0] >= x_end) {
+      count++;
+      x_end = intervals[i][1];
+    }
+  }
+  return intervals.size() - count;
+}
+
+vector<int> Solution::partitionLabels(std::string s) {
+  // unordered_map存储字符的最远位置
+  vector<int> ans;
+  std::unordered_map<char, int> hash_map;
+  for (int i = 0; i < s.size(); i++) {
+    hash_map[s[i]] = i;
+  }
+
+  for (std::unordered_map<char, int>::iterator p = hash_map.begin();
+       p != hash_map.end(); p++) {
+    std::cout << "(" << p->first << ", " << p->second << ")\n";
+  }
+
+  int pos = 0;
+  int left = 0;
+  for (int i = 0; i < s.size(); i++) {
+    pos = std::max(hash_map[s[i]], pos);
+    if (pos == i) {
+      //更新所有字符的最远距离
+
+      ans.emplace_back(pos - left + 1);
+      left = i + 1;
+    }
+  }
+  return ans;
+}
+
+int Solution::lengthOfLongestSubstring(std::string s){
+    if(s.size()==0) return 0;
+    //滑动窗口，双指针
+    int ans=0;
+    std::unordered_set<char> windows;
+    int left=0,right=0;
+    while(right<s.size()){
+      char c=s[right];
+      windows.emplace(c);
+      right++;
+      while (windows.find(c)!=windows.end()) {
+        char d=s[left];
+        windows.erase(d);
+        left++;
+      }
+      ans=std::max(ans,right-left);
+    }
+    return ans;
+
+
+
+
+
+
+  }
+
 
 } // namespace leetcode

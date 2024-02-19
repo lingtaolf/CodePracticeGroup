@@ -5,13 +5,14 @@
 #include <cstdint>
 #include <cstdio>
 #include <functional>
+#include <iostream>
 #include <numeric>
 #include <queue>
 #include <stdint.h>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
-
 using std::vector;
 
 namespace leetcode {
@@ -68,6 +69,17 @@ public:
   bool lemonadeChange(vector<int> &bills);
   // 406.根据⾝⾼重建队列
   vector<vector<int>> reconstructQueue(vector<vector<int>> &people);
+  // 452. 用最少数量的箭引爆气球
+  int findMinArrowShots(vector<vector<int>> &points);
+  // 435. 无重叠区间
+  int eraseOverlapIntervals(vector<vector<int>> &intervals);
+  // 763. 划分字母区间
+  vector<int> partitionLabels(std::string s);
+  // ============滑动窗口===========================
+  //3. 无重复字符的最长子串
+  int lengthOfLongestSubstring(std::string s);
+
+
 };
 
 } // namespace leetcode
