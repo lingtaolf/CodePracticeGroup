@@ -76,10 +76,9 @@ public:
   // 763. 划分字母区间
   vector<int> partitionLabels(std::string s);
   // ============滑动窗口===========================
-  //3. 无重复字符的最长子串
+  // 3. 无重复字符的最长子串
   int lengthOfLongestSubstring(std::string s);
-
-
+  vector<int> findAnagrams(std::string s, std::string p);
 };
 
 } // namespace leetcode

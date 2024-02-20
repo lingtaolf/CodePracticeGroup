@@ -254,31 +254,49 @@ vector<int> Solution::partitionLabels(std::string s) {
   return ans;
 }
 
-int Solution::lengthOfLongestSubstring(std::string s){
-    if(s.size()==0) return 0;
-    //滑动窗口，双指针
-    int ans=0;
-    std::unordered_set<char> windows;
-    int left=0,right=0;
-    while(right<s.size()){
-      char c=s[right];
-      windows.emplace(c);
-      right++;
-      while (windows.find(c)!=windows.end()) {
-        char d=s[left];
-        windows.erase(d);
-        left++;
-      }
-      ans=std::max(ans,right-left);
+int Solution::lengthOfLongestSubstring(std::string s) {
+  if (s.size() == 0)
+    return 0;
+  //滑动窗口，双指针
+  int ans = 0;
+  std::unordered_set<char> windows;
+  int left = 0, right = 0;
+  while (right < s.size()) {
+    char c = s[right];
+    windows.emplace(c);
+    right++;
+    while (windows.find(c) != windows.end()) {
+      char d = s[left];
+      windows.erase(d);
+      left++;
     }
-    return ans;
-
-
-
-
-
-
+    ans = std::max(ans, right - left);
   }
-
+  return ans;
+}
+vector<int> Solution::findAnagrams(std::string s, std::string p) {
+  //滑动窗口
+  std::unordered_map<char, int> need, windows;
+  for (auto s : p) {
+    need[s]++;
+  }
+  vector<int> ans;
+  int left = 0, right = 0;
+  while (right < s.size()) {
+    char c = s[right];
+    right++;
+    windows[c]++;
+    while (windows[c] > need[c]) {
+      // 调整窗口
+      char d = s[left];
+      left++;
+      windows[d]--;
+    }
+    if (need == windows) {
+      ans.emplace_back(left);
+    }
+  }
+  return ans;
+}
 
 } // namespace leetcode
