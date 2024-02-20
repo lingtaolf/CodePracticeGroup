@@ -78,7 +78,12 @@ public:
   // ============滑动窗口===========================
   // 3. 无重复字符的最长子串
   int lengthOfLongestSubstring(std::string s);
+
+  //=====================leetcode top100===================
+  // 438. 找到字符串中所有字母异位词
   vector<int> findAnagrams(std::string s, std::string p);
+  // 560. 和为 K 的子数组
+  int subarraySum(vector<int> &nums, int k);
 };
 
 } // namespace leetcode

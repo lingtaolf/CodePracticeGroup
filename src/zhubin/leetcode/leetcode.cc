@@ -299,4 +299,25 @@ vector<int> Solution::findAnagrams(std::string s, std::string p) {
   return ans;
 }
 
+int Solution::subarraySum(vector<int> &nums, int k) {
+  int ans = 0;
+  if (nums.size() == 0)
+    return 0;
+  // 使用前缀和，如果使用双指针，算法的复杂度依然是O(n^2)
+  int sum = 0;
+  //使用hash 来优化复杂度
+  std::unordered_map<int, int> sum_freq;
+  //当前位置以前的前缀和频率统计,空间换时间
+  for (int i = 0; i < nums.size(); i++) {
+    sum += nums[i];
+    if (sum == k)
+      ans++;
+    if (sum_freq.count(sum - k)) {
+      ans += sum_freq[sum - k];
+    }
+    sum_freq[sum]++;
+  }
+  return ans;
+}
+
 } // namespace leetcode
