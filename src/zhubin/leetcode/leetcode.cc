@@ -254,31 +254,70 @@ vector<int> Solution::partitionLabels(std::string s) {
   return ans;
 }
 
-int Solution::lengthOfLongestSubstring(std::string s){
-    if(s.size()==0) return 0;
-    //滑动窗口，双指针
-    int ans=0;
-    std::unordered_set<char> windows;
-    int left=0,right=0;
-    while(right<s.size()){
-      char c=s[right];
-      windows.emplace(c);
-      right++;
-      while (windows.find(c)!=windows.end()) {
-        char d=s[left];
-        windows.erase(d);
-        left++;
-      }
-      ans=std::max(ans,right-left);
+int Solution::lengthOfLongestSubstring(std::string s) {
+  if (s.size() == 0)
+    return 0;
+  //滑动窗口，双指针
+  int ans = 0;
+  std::unordered_set<char> windows;
+  int left = 0, right = 0;
+  while (right < s.size()) {
+    char c = s[right];
+    windows.emplace(c);
+    right++;
+    while (windows.find(c) != windows.end()) {
+      char d = s[left];
+      windows.erase(d);
+      left++;
     }
-    return ans;
-
-
-
-
-
-
+    ans = std::max(ans, right - left);
   }
+  return ans;
+}
+vector<int> Solution::findAnagrams(std::string s, std::string p) {
+  //滑动窗口
+  std::unordered_map<char, int> need, windows;
+  for (auto s : p) {
+    need[s]++;
+  }
+  vector<int> ans;
+  int left = 0, right = 0;
+  while (right < s.size()) {
+    char c = s[right];
+    right++;
+    windows[c]++;
+    while (windows[c] > need[c]) {
+      // 调整窗口
+      char d = s[left];
+      left++;
+      windows[d]--;
+    }
+    if (need == windows) {
+      ans.emplace_back(left);
+    }
+  }
+  return ans;
+}
 
+int Solution::subarraySum(vector<int> &nums, int k) {
+  int ans = 0;
+  if (nums.size() == 0)
+    return 0;
+  // 使用前缀和，如果使用双指针，算法的复杂度依然是O(n^2)
+  int sum = 0;
+  //使用hash 来优化复杂度
+  std::unordered_map<int, int> sum_freq;
+  //当前位置以前的前缀和频率统计,空间换时间
+  for (int i = 0; i < nums.size(); i++) {
+    sum += nums[i];
+    if (sum == k)
+      ans++;
+    if (sum_freq.count(sum - k)) {
+      ans += sum_freq[sum - k];
+    }
+    sum_freq[sum]++;
+  }
+  return ans;
+}
 
 } // namespace leetcode
