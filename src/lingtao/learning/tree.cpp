@@ -12,12 +12,12 @@ public:
     TreeNode* right;
 };
 
-void laterOrder(TreeNode* node) {
+void postOrder(TreeNode* node) {
     if (node->left != nullptr) {
-        laterOrder(node->left);
+        postOrder(node->left);
     }
     if (node->right != nullptr) {
-        laterOrder(node->right);
+        postOrder(node->right);
     }
     std::cout<<node->value<<std::endl;
 }
@@ -89,7 +89,7 @@ int main() {
     //levelOrder(root);
     //firstOrder(root);
     //midOrder(root);
-    laterOrder(root);
+    postOrder(root);
     return 0;
 
 }
